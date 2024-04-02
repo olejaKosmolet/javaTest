@@ -1,57 +1,54 @@
-package Main;
+package Program;
 
+import Program.AnalyzeWordFrequency.AnalyzeWordFrequency;
+import Program.CountWords.CountWords;
+import Program.FindLongestWord.FindLongestWord;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
-
-import AnalyzeWordFrequency.java;
 
 public class Main {
     public static void main (String[] args) {
-        countWords("X:\\aducation\\JAVA\\interimTest\\InterimTest1\\src\\main\\input.txt");
-        findLongestWord("X:\\aducation\\JAVA\\interimTest\\InterimTest1\\src\\main\\input.txt");
-        AnalyzeWordFrequency("X:\\aducation\\JAVA\\interimTest\\InterimTest1\\src\\main\\input.txt");
-    }
 
-    public static void countWords(String filePath) {
-        try {
-            File file = new File(filePath);
-            Scanner scanner = new Scanner(file);
+        String filePath = "X:\\aducation\\JAVA\\interimTest\\InterimTest1\\src\\Program\\input.txt";
 
-            int wordCount = 0;
-            while (scanner.hasNext()) {
-                String word = scanner.next();
-                if (!word.isEmpty()) {
-                    wordCount++;
-                }
+        CountWords firstRool = new CountWords();
+        FindLongestWord secondRool = new FindLongestWord();
+        AnalyzeWordFrequency thirdRool = new AnalyzeWordFrequency();
+
+        boolean flag = true;
+
+        Scanner in = new Scanner(System.in);
+
+        while (flag){
+
+            System.out.println("Введите запрос на выполнение желаемой задачи:\n" +
+                    "1 - посчитать кол-во слов\n" +
+                    "2 - найти самое длинное слово\n3 - просмотреть частоту повторов каждого слова\n" +
+                    "4 - завершить работу");
+
+            int num = in.nextInt();
+
+            System.out.printf("Ваш номер запроса - %d, идёт обработка...\n", num);
+            switch (num){
+                case 1:
+                    System.out.println("\nПодсчитываю все слова в файле...\n");
+                    firstRool.countWords(filePath);
+                    break;
+                case 2:
+                    System.out.println("\nИшу самое длинное слово в файле...\n");
+                    secondRool.findLongestWord(filePath);
+                    break;
+                case 3:
+                    System.out.println("\nПодсчитываю частоту повторов каждого слова в файле...\n");
+                    thirdRool.analyzeWordFrequency(filePath);
+                    break;
+                case 4:
+                    System.out.println("\nЗавершение работы...");
+                    flag = false;
+                    return;
             }
-
-            System.out.println("Количество слов в файле: " + wordCount);
-
-            scanner.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("Файл не найден.");
+            in.nextLine();
         }
-    }
-    public static void findLongestWord(String filePath) {
-        try {
-            File file = new File(filePath);
-            Scanner scanner = new Scanner(file);
-
-            String longestWord = "";
-            while (scanner.hasNext()) {
-                String word = scanner.next();
-                if (word.length() > longestWord.length()) {
-                    longestWord = word;
-                }
-            }
-
-            System.out.println("Самое длинное слово в файле: " + longestWord);
-
-            scanner.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("Файл не найден.");
-        }
+        in.close();
     }
 }
